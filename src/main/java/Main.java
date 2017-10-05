@@ -5,5 +5,6 @@ public class Main{
         Vertx vertx = Vertx.vertx();
 
         vertx.deployVerticle(StreamVerticle.class.getName());
+        vertx.deployVerticle(RxStreamVerticle.class.getName());
     }
 }

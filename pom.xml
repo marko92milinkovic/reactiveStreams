@@ -35,6 +35,11 @@
             <artifactId>rxjava-reactive-streams</artifactId>
             <version>LATEST</version>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-rx-java</artifactId>
+            <version>LATEST</version>
+        </dependency>
     </dependencies>
 
 </project>

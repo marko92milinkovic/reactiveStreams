@@ -9,9 +9,7 @@ import org.reactivestreams.Publisher;
 import org.reactivestreams.Subscriber;
 import rx.Observable;
 import rx.RxReactiveStreams;
-import rx.schedulers.Schedulers;
 
-import java.util.Random;
 import java.util.concurrent.Executors;
 
 public class StreamVerticle extends AbstractVerticle {
@@ -66,25 +64,11 @@ public class StreamVerticle extends AbstractVerticle {
         pump.start();
     }
 
-    private Observable <Buffer> getTcpResponseObservable() {
-        return Observable.range(1, 100)
-                .map(integer -> String.valueOf(integer) + "n")
-                .concatWith(Observable.just("Give me some data. To end send ENDNOW"))
-                .map(Buffer::buffer);
-    }
 
     private Observable <Buffer> getTcpResponseFromUnlimitedObservable() {
-        return Observable.create(subscriber -> {
-            try {
-                while (true) {
-                    subscriber.onNext(new Random().nextInt(1000000));
-                }
-            } catch (Throwable t) {
-                subscriber.onError(t);
-            }
-        }).map(integer -> String.valueOf(integer) + "This is " + Thread.currentThread() + " speaking\n")
-                .map(Buffer::buffer)
-                .subscribeOn(Schedulers.io());
+        return ObservableFactory.getUnlimitedIntegerObservable()
+                .map(integer -> String.valueOf(integer) + "  --> This is Observable speaking\n")
+                .map(Buffer::buffer);
     }
 
 
